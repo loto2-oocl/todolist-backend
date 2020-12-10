@@ -1,5 +1,6 @@
 package com.oocl.todolist.service;
 
+import com.oocl.todolist.exception.TagNotFoundException;
 import com.oocl.todolist.model.Tag;
 import com.oocl.todolist.repository.TagRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class TagService {
 
     public Tag update(String id, Tag newTag) {
         if(!this.tagRepository.existsById(id)) {
-            throw new RuntimeException();
+            throw new TagNotFoundException(id);
         }
 
         newTag.setId(id);
