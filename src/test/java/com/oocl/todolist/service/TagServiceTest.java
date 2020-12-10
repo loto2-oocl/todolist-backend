@@ -75,9 +75,7 @@ public class TagServiceTest {
         //then
         assertThrows(
                 TagNotFoundException.class,
-                () -> {
-                    tagService.update(id, new Tag());
-                },
+                () -> tagService.update(id, new Tag()),
                 "Tag with id:1 cannot be found"
         );
     }
