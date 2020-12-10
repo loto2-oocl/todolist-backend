@@ -23,6 +23,11 @@ public class TagService {
     }
 
     public Tag update(String id, Tag newTag) {
-        return null;
+        if(!this.tagRepository.existsById(id)) {
+            throw new RuntimeException();
+        }
+
+        newTag.setId(id);
+        return this.tagRepository.save(newTag);
     }
 }
