@@ -29,7 +29,7 @@ public class TagServiceTest {
         when(tagRepository.findAll()).thenReturn(expected);
 
         //when
-        List<Tag> actual =tagService.getAll();
+        List<Tag> actual = tagService.getAll();
 
         //then
         assertEquals(expected, actual);
