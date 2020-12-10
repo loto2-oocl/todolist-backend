@@ -19,6 +19,6 @@ public class TodoService {
     }
 
     public Todo create(Todo newTodo) {
-        return null;
+        return this.todoRepository.insert(newTodo);
     }
 }
