@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TagServiceTest {
@@ -46,5 +46,21 @@ public class TagServiceTest {
 
         //then
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void should_return_updated_tag_when_update_given_repository_and_tag_update_and_tag_id() {
+        //given
+        String id = "1";
+        Tag newTag = new Tag(id, "new content", "#111111");
+        when(tagRepository.existsById(id)).thenReturn(true);
+        when(tagRepository.save(newTag)).thenReturn(newTag);
+
+        //when
+        Tag actual = tagService.update(id, newTag);
+
+        //then
+        verify(tagRepository, times(1)).save(newTag);
+        assertEquals(newTag, actual);
     }
 }
