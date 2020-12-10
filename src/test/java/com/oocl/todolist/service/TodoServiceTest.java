@@ -9,10 +9,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TodoServiceTest {
@@ -45,6 +46,22 @@ public class TodoServiceTest {
         Todo actual = todoService.create(expected);
 
         //then
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void should_return_updated_todo_when_update_with_todo_id_and_todo_update() {
+        //given
+        String id = "1";
+        Todo expected = new Todo(id, "message", false, Collections.emptyList());
+        when(todoRepository.existsById(id)).thenReturn(true);
+        when(todoRepository.save(expected)).thenReturn(expected);
+
+        //when
+        Todo actual = todoService.update(id, expected);
+
+        //then
+        verify(todoRepository, times(1)).save(expected);
         assertEquals(expected, actual);
     }
 }
