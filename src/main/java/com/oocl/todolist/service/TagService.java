@@ -19,8 +19,8 @@ public class TagService {
         return this.tagRepository.findAll();
     }
 
-    public Tag create(Tag expected) {
-        return this.tagRepository.insert(expected);
+    public Tag create(Tag tag) {
+        return this.tagRepository.insert(tag);
     }
 
     public Tag update(String id, Tag newTag) {
