@@ -24,7 +24,7 @@ public class TodoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Todo create(Todo createTodo) {
-        return null;
+    public Todo create(@RequestBody Todo createTodo) {
+        return this.todoService.create(createTodo);
     }
 }
