@@ -33,5 +33,6 @@ public class TagService {
     }
 
     public void delete(String id) {
+        this.tagRepository.deleteById(id);
     }
 }
