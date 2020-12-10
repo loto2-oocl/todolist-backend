@@ -17,4 +17,8 @@ public class TagService {
     public List<Tag> getAll() {
         return this.tagRepository.findAll();
     }
+
+    public Tag create(Tag expected) {
+        return null;
+    }
 }

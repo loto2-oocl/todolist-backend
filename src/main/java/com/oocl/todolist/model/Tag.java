@@ -19,6 +19,12 @@ public class Tag {
         this.color = color;
     }
 
+    public Tag(String id, String content, String color) {
+        this.id = id;
+        this.content = content;
+        this.color = color;
+    }
+
     public String getId() {
         return id;
     }
