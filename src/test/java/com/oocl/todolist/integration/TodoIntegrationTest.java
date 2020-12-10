@@ -4,7 +4,6 @@ import com.oocl.todolist.model.Tag;
 import com.oocl.todolist.model.Todo;
 import com.oocl.todolist.repository.TagRepository;
 import com.oocl.todolist.repository.TodoRepository;
-import com.oocl.todolist.service.TodoService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +13,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -114,5 +113,18 @@ public class TodoIntegrationTest {
                 .andExpect(jsonPath("$.message").value("message 1"))
                 .andExpect(jsonPath("$.status").value(false))
                 .andExpect(jsonPath("$.tags").isEmpty());
+    }
+
+    @Test
+    void should_delete_todo_when_called_delete_given_todo_id() throws Exception {
+        //given
+        Todo todo = new Todo("message old", true);
+        todoRepository.insert(todo);
+
+        //when
+        mockMvc.perform(delete("/todos/" + todo.getId()))
+                .andExpect(status().isOk());
+
+        assertEquals(0, todoRepository.findAll().size());
     }
 }
