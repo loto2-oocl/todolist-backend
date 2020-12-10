@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -88,5 +89,17 @@ public class TagIntegrationTest {
                 .andExpect(jsonPath("$.id").value(tag.getId()))
                 .andExpect(jsonPath("$.content").value("content"))
                 .andExpect(jsonPath("$.color").value("#123456"));
+    }
+
+    @Test
+    void should_delete_requested_tag_when_called_delete_given_tag_id() throws Exception {
+        //given
+        Tag tag = new Tag("content", "#000000");
+        this.tagRepository.insert(tag);
+
+        //when
+        mockMvc.perform(delete("/tags/" + tag.getId()))
+                .andExpect(status().isNoContent());
+        assertEquals(0, this.tagRepository.findAll().size());
     }
 }
