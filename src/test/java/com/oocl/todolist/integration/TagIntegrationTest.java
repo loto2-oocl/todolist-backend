@@ -8,10 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -45,5 +47,25 @@ public class TagIntegrationTest {
                 .andExpect(jsonPath("$[0].content").value("content1"))
                 .andExpect(jsonPath("$[0].color").value("#123456"));
 
+    }
+
+    @Test
+    void should_return_created_tag_when_called_create_given_tag() throws Exception {
+        //given
+        String tagJson = "{\n" +
+                "    \"content\": \"content\",\n" +
+                "    \"color\": \"#123456\"\n" +
+                "}";
+
+        //when
+        mockMvc.perform(
+                post("/tags")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(tagJson)
+        )
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").isString())
+                .andExpect(jsonPath("$.content").value("content"))
+                .andExpect(jsonPath("$.color").value("#123456"));
     }
 }
