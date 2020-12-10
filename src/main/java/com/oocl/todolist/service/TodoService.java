@@ -28,6 +28,7 @@ public class TodoService {
             throw new TodoNotFoundException(todoId);
         }
 
+        updateTodo.setId(todoId);
         return this.todoRepository.save(updateTodo);
     }
 

@@ -29,7 +29,7 @@ public class TodoController {
     }
 
     @PutMapping("/{todoId}")
-    public Todo update(@PathVariable String todoId) {
-        return null;
+    public Todo update(@PathVariable String todoId, @RequestBody Todo updateTodo) {
+        return this.todoService.update(todoId, updateTodo);
     }
 }
