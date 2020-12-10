@@ -20,6 +20,6 @@ public class TodoController {
 
     @GetMapping
     public List<Todo> getAll() {
-        return null;
+        return this.todoService.getAll();
     }
 }
