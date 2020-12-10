@@ -39,6 +39,7 @@ public class TodoIntegrationTest {
         todoRepository.deleteAll();
         tagRepository.deleteAll();
     }
+
     @Test
     void should_return_all_todos_when_called_get_all_given_todos() throws Exception {
         //given
@@ -86,6 +87,30 @@ public class TodoIntegrationTest {
         )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isString())
+                .andExpect(jsonPath("$.message").value("message 1"))
+                .andExpect(jsonPath("$.status").value(false))
+                .andExpect(jsonPath("$.tags").isEmpty());
+    }
+
+    @Test
+    void should_return_update_todo_when_called_update_given_todo_id_and_update_todo_request() throws Exception {
+        //given
+        Todo todo = new Todo("message old", true);
+        todoRepository.insert(todo);
+        String updateTodoJson = "{\n" +
+                "    \"message\": \"message 1\",\n" +
+                "    \"status\": false,\n" +
+                "    \"tags\": []\n" +
+                "}";
+
+        //when
+        mockMvc.perform(
+                put("/todos/" + todo.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updateTodoJson)
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(todo.getId()))
                 .andExpect(jsonPath("$.message").value("message 1"))
                 .andExpect(jsonPath("$.status").value(false))
                 .andExpect(jsonPath("$.tags").isEmpty());
