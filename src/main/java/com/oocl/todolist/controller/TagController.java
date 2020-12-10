@@ -31,4 +31,11 @@ public class TagController {
     public Tag update(@PathVariable String tagId, @RequestBody Tag updateTag) {
         return this.tagService.update(tagId, updateTag);
     }
+
+    @DeleteMapping("/{tagId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable String tagId) {
+        this.tagService.delete(tagId);
+    }
 }
+
