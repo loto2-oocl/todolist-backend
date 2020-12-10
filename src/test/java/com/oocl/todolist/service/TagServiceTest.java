@@ -1,5 +1,6 @@
 package com.oocl.todolist.service;
 
+import com.oocl.todolist.exception.TagNotFoundException;
 import com.oocl.todolist.model.Tag;
 import com.oocl.todolist.repository.TagRepository;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -62,5 +64,21 @@ public class TagServiceTest {
         //then
         verify(tagRepository, times(1)).save(newTag);
         assertEquals(newTag, actual);
+    }
+
+    @Test
+    void should_throw_tag_not_found_exception_when_update_given_tag_id_not_exists() {
+        //given
+        String id = "1";
+        when(tagRepository.existsById(id)).thenReturn(false);
+
+        //then
+        assertThrows(
+                TagNotFoundException.class,
+                () -> {
+                    tagService.update(id, new Tag());
+                },
+                "Tag with id:1 cannot be found"
+        );
     }
 }
