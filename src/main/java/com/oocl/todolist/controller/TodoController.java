@@ -35,5 +35,6 @@ public class TodoController {
 
     @DeleteMapping("/{todoId}")
     public void delete(@PathVariable String todoId) {
+        this.todoService.delete(todoId);
     }
 }
