@@ -81,4 +81,16 @@ public class TagServiceTest {
                 "Tag with id:1 cannot be found"
         );
     }
+
+    @Test
+    void should_call_delete_by_id_once_when_delete_given_tag_id() {
+        //given
+        String id = "1";
+
+        //when
+        tagService.delete(id);
+
+        //then
+        verify(tagRepository, times(1)).deleteById(id);
+    }
 }
