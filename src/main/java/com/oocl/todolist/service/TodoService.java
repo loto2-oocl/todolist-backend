@@ -23,6 +23,10 @@ public class TodoService {
     }
 
     public Todo update(String todoId, Todo updateTodo) {
-        return null;
+        if (!this.todoRepository.existsById(todoId)) {
+            throw new RuntimeException();
+        }
+
+        return this.todoRepository.save(updateTodo);
     }
 }
