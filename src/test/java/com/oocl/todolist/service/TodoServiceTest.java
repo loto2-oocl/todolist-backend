@@ -64,4 +64,16 @@ public class TodoServiceTest {
         verify(todoRepository, times(1)).save(expected);
         assertEquals(expected, actual);
     }
+
+    @Test
+    void should_call_delete_by_id_once_when_delete_given_todo_id() {
+        //given
+        String id = "1";
+
+        //when
+        todoService.delete(id);
+
+        //then
+        verify(todoRepository, times(1)).deleteById(id);
+    }
 }
