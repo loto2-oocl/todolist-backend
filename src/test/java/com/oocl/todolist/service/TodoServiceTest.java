@@ -34,4 +34,17 @@ public class TodoServiceTest {
         //then
         assertEquals(actual, expected);
     }
+
+    @Test
+    void should_return_created_todo_when_create_with_todo_request() {
+        //given
+        Todo expected = new Todo("todo", false);
+        when(todoRepository.insert(expected)).thenReturn(expected);
+
+        //when
+        Todo actual = todoService.create(expected);
+
+        //then
+        assertEquals(expected, actual);
+    }
 }
