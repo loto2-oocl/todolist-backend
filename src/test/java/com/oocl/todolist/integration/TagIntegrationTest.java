@@ -12,8 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -65,6 +64,28 @@ public class TagIntegrationTest {
         )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isString())
+                .andExpect(jsonPath("$.content").value("content"))
+                .andExpect(jsonPath("$.color").value("#123456"));
+    }
+
+    @Test
+    void should_return_updated_tag_when_called_update_given_tag_id_and_tag_update() throws Exception {
+        //given
+        Tag tag = new Tag("old content", "#000000");
+        this.tagRepository.insert(tag);
+        String updateTagJson = "{\n" +
+                "    \"content\": \"content\",\n" +
+                "    \"color\": \"#123456\"\n" +
+                "}";
+
+        //when
+        mockMvc.perform(
+                put("/tags/" + tag.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updateTagJson)
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(tag.getId()))
                 .andExpect(jsonPath("$.content").value("content"))
                 .andExpect(jsonPath("$.color").value("#123456"));
     }
